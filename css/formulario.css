@@ -1,0 +1,214 @@
+:root {
+    /* Identidade Visual CF Digital */
+    --color-bg-deep: #0A192F;
+    --color-bg-card: #112240;
+    --color-text-main: #CCD6F6;
+    --color-text-muted: #8892B0;
+    --color-accent: #64FFDA;
+
+    /* Utils */
+    --radius-box: 16px;
+    --radius-pill: 100px;
+    --shadow-tech: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    --border-subtle: 1px solid rgba(136, 146, 176, 0.1);
+
+    /* Variáveis do Carrossel */
+    --gap-marquee: 30px;
+    --card-width: 600px;
+    --card-height: 400px;
+
+    /* Base da fonte e validações visuais (mantidas do projeto) */
+    --font-main: 'Inter', sans-serif;
+    --color-error: #ef4444; 
+    --color-success: #22c55e;
+}
+
+body {
+    background-color: var(--color-bg-deep);
+    font-family: var(--font-main);
+    color: var(--color-text-main);
+    position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-main);
+    font-weight: 700;
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-color: var(--color-bg-card); /* Ajustado para o tema escuro */
+    z-index: 1050;
+}
+.progress-bar-custom {
+    height: 100%;
+    background-color: var(--color-accent);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    top: 2rem;
+    z-index: 1000;
+}
+.nav-pills .nav-link {
+    color: var(--color-text-muted);
+    border-radius: 8px;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.nav-pills .nav-link:hover {
+    background-color: rgba(136, 146, 176, 0.05);
+    color: var(--color-accent);
+}
+.nav-pills .nav-link.active {
+    background-color: rgba(100, 255, 218, 0.1); /* Fundo com transparência */
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+}
+
+/* Mobile Sidebar behavior */
+@media (max-width: 767.98px) {
+    .sidebar-nav {
+        position: sticky;
+        top: 6px; 
+        background: var(--color-bg-deep);
+        padding: 1rem 0;
+        box-shadow: var(--shadow-tech);
+    }
+    .sidebar-nav .nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+    .nav-pills .nav-link {
+        white-space: nowrap;
+        margin-right: 0.5rem;
+        margin-bottom: 0;
+    }
+}
+
+/* Cards and Form Elements */
+.form-section {
+    scroll-margin-top: 100px;
+    margin-bottom: 2rem;
+}
+.card {
+    background-color: var(--color-bg-card);
+    border: var(--border-subtle);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-tech);
+}
+.form-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text-main);
+}
+.required::after {
+    content: " *";
+    color: var(--color-error);
+}
+
+/* Bootstrap Dark Mode Overrides para Inputs e Selects */
+.form-control, .form-select {
+    background-color: rgba(2, 12, 27, 0.5);
+    border: var(--border-subtle);
+    color: var(--color-text-main);
+}
+.form-control:focus, .form-select:focus {
+    background-color: var(--color-bg-deep);
+    border-color: var(--color-accent);
+    color: var(--color-text-main);
+    box-shadow: 0 0 0 0.25rem rgba(100, 255, 218, 0.25);
+}
+.form-control::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+.form-check-input {
+    background-color: var(--color-bg-deep);
+    border-color: var(--color-text-muted);
+}
+.form-check-input:checked {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+.form-check-label {
+    color: var(--color-text-main);
+}
+
+/* Custom Buttons */
+.btn-custom-primary {
+    background-color: var(--color-accent);
+    color: var(--color-bg-deep); /* Texto escuro contrastando com o fundo claro do accent */
+    font-weight: 700;
+    border: 1px solid var(--color-accent);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.btn-custom-primary:hover:not(:disabled) {
+    background-color: transparent;
+    color: var(--color-accent);
+}
+.btn-custom-primary:disabled {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-muted);
+    border-color: var(--color-text-muted);
+    opacity: 0.7;
+}
+.btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s ease;
+}
+.btn-whatsapp:hover {
+    background-color: #1ebc5a;
+    color: white;
+}
+
+/* Visual Feedback Overrides */
+.form-control.is-valid, .form-select.is-valid {
+    border-color: var(--color-success);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2322c55e' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+}
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: var(--color-error);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ef4444'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23ef4444' stroke='none'/%3e%3c/svg%3e");
+}
+
+/* Utils Extras */
+.text-muted { color: var(--color-text-muted) !important; }
+.text-accent { color: var(--color-accent) !important; }
+
+/* Char Counter */
+.char-counter {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-align: right;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+/* Image Preview */
+#logo-preview {
+    max-width: 150px;
+    max-height: 150px;
+    display: none;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: var(--border-subtle);
+}
+
+html { scroll-behavior: smooth; }
