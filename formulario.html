@@ -3,605 +3,765 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Briefing de Landing Page</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Briefing Estratégico | CF Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="./css/formulario.css">
+    <!-- Importação do jsPDF puro (Gerador de texto) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
 
+    <style>
+        /* ============================================
+           IDENTIDADE VISUAL CF DIGITAL & DESIGN SYSTEM
+        ============================================ */
+        :root {
+            /* Identidade Visual CF Digital */
+            --color-bg-deep: #0A192F;
+            --color-bg-card: #112240;
+            --color-text-main: #CCD6F6;
+            --color-text-muted: #8892B0;
+            --color-accent: #64FFDA;
+
+            /* Utils */
+            --radius-box: 16px;
+            --radius-pill: 100px;
+            --shadow-tech: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+            --border-subtle: 1px solid rgba(136, 146, 176, 0.1);
+
+            /* Base da fonte e validações visuais */
+            --font-main: 'Inter', sans-serif;
+            --color-error: #ef4444; 
+            --color-success: #22c55e;
+            
+            /* Premium Transitions */
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container Principal */
+        .briefing-container {
+            width: 100%;
+            max-width: 800px;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+            will-change: transform, opacity;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header-title h1 {
+            font-size: 2.5rem;
+            color: var(--color-text-main);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-title p {
+            color: var(--color-accent);
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Cartões de Seção */
+        .form-section {
+            background-color: var(--color-bg-card);
+            border: var(--border-subtle);
+            border-radius: var(--radius-box);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-tech);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-smooth);
+        }
+
+        .form-section:hover {
+            transform: translateY(-4px);
+            border-color: rgba(100, 255, 218, 0.2);
+        }
+
+        /* Efeito de brilho na borda superior */
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-smooth);
+        }
+
+        .form-section:hover::before {
+            opacity: 1;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--color-text-main);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-number {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--color-accent);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Inputs e Formulários */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-description {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            background: rgba(10, 25, 47, 0.5);
+            border: 1px solid rgba(136, 146, 176, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--color-text-main);
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            transition: all var(--transition-smooth);
+            outline: none;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--color-accent);
+            background: rgba(10, 25, 47, 0.8);
+            box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: var(--color-text-muted);
+            opacity: 0.5;
+        }
+
+        /* Checkbox Customizado */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background var(--transition-smooth);
+        }
+
+        .checkbox-wrapper:hover {
+            background: rgba(100, 255, 218, 0.05);
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-text-muted);
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: all var(--transition-smooth);
+        }
+
+        .custom-checkbox:checked {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        .custom-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 4px;
+            height: 10px;
+            border: solid var(--color-bg-deep);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-label {
+            font-size: 0.95rem;
+            color: var(--color-text-main);
+            user-select: none;
+        }
+
+        /* Lógica Condicional Animada */
+        .conditional-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 0;
+            padding-left: 1rem;
+            border-left: 2px solid var(--color-accent);
+            background: rgba(10, 25, 47, 0.3);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .conditional-content.active {
+            max-height: 800px;
+            opacity: 1;
+            visibility: visible;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* Botão de Envio */
+        .btn-submit {
+            width: 100%;
+            background: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+            padding: 1.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: var(--font-main);
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2rem;
+        }
+
+        .btn-submit:hover {
+            background: rgba(100, 255, 218, 0.1);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           PROGRESS BAR (UX PREMIUM)
+        ============================================ */
+        .progress-wrapper {
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        .progress-header span.highlight {
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(136, 146, 176, 0.15);
+            border-radius: var(--radius-pill);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 20%;
+            background: linear-gradient(90deg, rgba(100,255,218,0.2), var(--color-accent));
+            border-radius: var(--radius-pill);
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.4);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: width;
+        }
+
+        /* ============================================
+           PROGRESSIVE DISCLOSURE (STEPS ANIMATION)
+        ============================================ */
+        .step-hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            will-change: opacity, transform;
+        }
+
+        .step-active {
+            display: block;
+            animation: fadeInUpStep 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .btn-next {
+            background: rgba(100, 255, 218, 0.05);
+            color: var(--color-accent);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-next:hover {
+            background: rgba(100, 255, 218, 0.15);
+            border-color: var(--color-accent);
+            transform: translateX(4px);
+        }
+
+        @keyframes fadeInUpStep {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="progress-container">
-        <div class="progress-bar-custom" id="topProgressBar"></div>
-    </div>
+    <div class="briefing-container">
+        <div class="header-title">
+            <h1>Briefing Estratégico</h1>
+            <p>/// CF DIGITAL_</p>
+        </div>
 
-    <div class="container py-4 mt-3">
-        <div class="row">
-            <div class="col-12 mb-4 text-center">
-                <h2>Briefing para Landing Page</h2>
-                <p class="text-muted">Preencha os dados abaixo para darmos início ao seu projeto.</p>
-                <span class="badge bg-secondary" id="progressText">0% Preenchido</span>
+        <div class="progress-wrapper">
+            <div class="progress-header">
+                <span>Progresso do Briefing</span>
+                <span id="progress-text">Passo <span class="highlight">1</span> de 5</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-3">
-                <nav class="sidebar-nav sticky-md-top" id="sidebarNav">
-                    <ul class="nav nav-pills flex-md-column flex-row">
-                        <li class="nav-item"><a class="nav-link active" href="#sec1">1. Identificação</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec2">2. Negócio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec3">3. Objetivo</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec4">4. Público</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec5">5. Oferta</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec6">6. Prova Social</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec7">7. Marca</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec8">8. Tom de Voz</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec9">9. Tráfego</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sec10">10. Prazos</a></li>
-                    </ul>
-                </nav>
-            </div>
+        <form id="briefingForm">
+            <!-- 1. Identificação e Contexto -->
+            <div class="form-section" id="step-1">
+                <h2 class="section-title"><span class="section-number">1</span> Identificação e Contexto</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Dados Básicos</label>
+                    <span class="form-description">Nome, empresa e nicho de atuação.</span>
+                    <input type="text" id="dados-basicos" class="form-input" placeholder="Ex: João Silva - TechSolutions - Softwares B2B">
+                </div>
 
-            <div class="col-md-9">
-                <form id="briefingForm" novalidate>
+                <div class="form-group">
+                    <label class="form-label">Histórico</label>
+                    <span class="form-description">O que vocês já tentaram no digital que funcionou e o que não funcionou? (Isso evita erros repetidos).</span>
+                    <textarea id="historico-tentativas" class="form-textarea" placeholder="Descreva as tentativas passadas..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">O Problema</label>
+                    <span class="form-description">Selecione os principais desafios que sua empresa enfrenta hoje:</span>
                     
-                    <section id="sec1" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">1. Identificação</h4>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label required">Nome Completo</label>
-                                    <input type="text" class="form-control" name="nome" required>
-                                    <div class="invalid-feedback">Por favor, insira seu nome.</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">Empresa</label>
-                                    <input type="text" class="form-control" name="empresa" required>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Site Atual (Opcional)</label>
-                                    <input type="url" class="form-control" name="site" placeholder="https://...">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">WhatsApp</label>
-                                    <input type="tel" class="form-control" name="whatsapp" required placeholder="(00) 00000-0000">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">E-mail</label>
-                                    <input type="email" class="form-control" name="email" required>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec2" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">2. Negócio</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label required">Produto/Serviço Principal</label>
-                                    <input type="text" class="form-control" name="produto" required>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label required">Resumo da Empresa</label>
-                                    <textarea class="form-control" name="resumo_empresa" rows="3" maxlength="300" required></textarea>
-                                    <span class="char-counter">0/300</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Qual dor principal vocês resolvem?</label>
-                                    <textarea class="form-control" name="dor_resolvida" rows="2" maxlength="200"></textarea>
-                                    <span class="char-counter">0/200</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">Área de Atuação</label>
-                                    <select class="form-select" name="atuacao" required>
-                                        <option value="">Selecione...</option>
-                                        <option value="Local">Local</option>
-                                        <option value="Regional">Regional</option>
-                                        <option value="Nacional">Nacional</option>
-                                        <option value="Internacional">Internacional</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec3" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">3. Objetivo</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label required">Objetivo Principal da Landing Page</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="objetivo_principal" value="Vendas" required>
-                                        <label class="form-check-label">Venda Direta de Produto/Serviço</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="objetivo_principal" value="Leads">
-                                        <label class="form-check-label">Captação de Leads / Orçamentos</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="objetivo_principal" value="Agendamento">
-                                        <label class="form-check-label">Agendamento de Reuniões</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="objetivo_principal" value="Lancamento">
-                                        <label class="form-check-label">Lançamento de Infoproduto</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="objetivo_principal" value="Outro">
-                                        <label class="form-check-label">Outro</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <label class="form-label">Objetivos Secundários (Múltipla escolha)</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="objetivo_secundario" value="Lista">
-                                        <label class="form-check-label">Aumentar base de contatos</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="objetivo_secundario" value="Autoridade">
-                                        <label class="form-check-label">Posicionamento e Autoridade</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="objetivo_secundario" value="Download">
-                                        <label class="form-check-label">Download de Materiais</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-4">
-                                    <label class="form-label">Meta Quantitativa (3 meses)</label>
-                                    <input type="number" class="form-control" name="meta_3_meses" placeholder="Ex: 500 leads">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec4" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">4. Público-Alvo</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label required">Descrição do Cliente Ideal (Persona)</label>
-                                    <textarea class="form-control" name="cliente_ideal" rows="3" maxlength="400" required></textarea>
-                                    <span class="char-counter">0/400</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Principais Objeções (Por que não compram?)</label>
-                                    <textarea class="form-control" name="objecoes" rows="2" maxlength="300"></textarea>
-                                    <span class="char-counter">0/300</span>
-                                </div>
-                                <div class="col-md-12 mt-3">
-                                    <label class="form-label">Origem do Tráfego Atual</label>
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="origem_trafego" value="MetaAds"><label class="form-check-label">Instagram/FB Ads</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="origem_trafego" value="GoogleAds"><label class="form-check-label">Google Ads</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="origem_trafego" value="SEO"><label class="form-check-label">SEO/Orgânico</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="origem_trafego" value="Email"><label class="form-check-label">E-mail</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="origem_trafego" value="Indicacoes"><label class="form-check-label">Indicações</label></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec5" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">5. Oferta e Valor</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label required">Proposta de Valor (A grande promessa)</label>
-                                    <textarea class="form-control" name="proposta_valor" rows="2" maxlength="150" required placeholder="O que diferencia você em uma frase?"></textarea>
-                                    <span class="char-counter">0/150</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Benefícios Diretos (Em formato de lista)</label>
-                                    <textarea class="form-control" name="beneficios" rows="4" maxlength="500"></textarea>
-                                    <span class="char-counter">0/500</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Garantias oferecidas</label>
-                                    <textarea class="form-control" name="garantias" rows="2" maxlength="200" placeholder="Ex: 7 dias de garantia, devolução integral..."></textarea>
-                                    <span class="char-counter">0/200</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec6" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">6. Prova Social</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label required">Possui depoimentos de clientes?</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tem_depoimentos" value="Sim" required>
-                                        <label class="form-check-label">Sim (Texto ou Vídeo)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tem_depoimentos" value="Nao">
-                                        <label class="form-check-label">Não possuo ainda</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Links de Projetos/Cases de Sucesso</label>
-                                    <textarea class="form-control" name="links_projetos" rows="2" maxlength="300"></textarea>
-                                    <span class="char-counter">0/300</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Certificações e Prêmios</label>
-                                    <textarea class="form-control" name="certificacoes" rows="2" maxlength="200"></textarea>
-                                    <span class="char-counter">0/200</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec7" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">7. Marca e Design</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label required">Possui Identidade Visual (Manual de Marca)?</label>
-                                    <div class="d-flex gap-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="tem_id_visual" value="Sim" required>
-                                            <label class="form-check-label">Sim</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="tem_id_visual" value="Nao">
-                                            <label class="form-check-label">Não</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <label class="form-label">Upload da Logo (Opcional, PNG/JPG)</label>
-                                    <input type="file" class="form-control" id="logoUpload" accept="image/png, image/jpeg, image/jpg">
-                                    <img id="logo-preview" alt="Preview da Logo">
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <label class="form-label">Referências de Sites que você gosta (Links)</label>
-                                    <textarea class="form-control" name="referencias_sites" rows="3" maxlength="400" placeholder="Quais sites inspiram você?"></textarea>
-                                    <span class="char-counter">0/400</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec8" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">8. Tom de Voz</h4>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label required">Como a marca deve ser percebida?</label>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="percepcao_marca" value="Inovadora" required><label class="form-check-label">Inovadora/Moderna</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="percepcao_marca" value="Tradicional"><label class="form-check-label">Confiável/Tradicional</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="percepcao_marca" value="Descontraida"><label class="form-check-label">Jovem/Descontraída</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="percepcao_marca" value="Premium"><label class="form-check-label">Premium/Exclusiva</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="percepcao_marca" value="Acessivel"><label class="form-check-label">Popular/Acessível</label></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">Estilo do Copy (Texto)</label>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="tipo_texto" value="Direto" required><label class="form-check-label">Direto e Agressivo (Vendas)</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="tipo_texto" value="Emocional"><label class="form-check-label">Emocional e Empático</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" name="tipo_texto" value="Tecnico"><label class="form-check-label">Técnico e Informativo</label></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec9" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">9. Estrutura e Tráfego</h4>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <div class="form-check form-switch mt-2">
-                                        <input class="form-check-input" type="checkbox" role="switch" name="investe_trafego" id="investeTrafego">
-                                        <label class="form-check-label" for="investeTrafego">Já investe em tráfego pago atualmente?</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <label class="form-label">Quais ferramentas precisamos integrar?</label>
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="ferramentas" value="RDStation"><label class="form-check-label">RD Station</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="ferramentas" value="ActiveCampaign"><label class="form-check-label">ActiveCampaign</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="ferramentas" value="PixelMeta"><label class="form-check-label">Pixel da Meta (FB/IG)</label></div>
-                                        <div class="form-check"><input class="form-check-input" type="checkbox" name="ferramentas" value="GoogleAnalytics"><label class="form-check-label">Google Analytics / GTM</label></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="sec10" class="form-section">
-                        <div class="card p-4">
-                            <h4 class="mb-3 text-accent">10. Prazos e Expectativas</h4>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label required">Prazo Ideal para Entrega</label>
-                                    <select class="form-select" name="prazo_ideal" required>
-                                        <option value="">Selecione...</option>
-                                        <option value="1_semana">Urgente (Até 1 semana)</option>
-                                        <option value="2_semanas">Rápido (Até 2 semanas)</option>
-                                        <option value="1_mes">Normal (Até 1 mês)</option>
-                                        <option value="Flexivel">Flexível</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">Faixa de Investimento Prevista</label>
-                                    <select class="form-select" name="faixa_investimento" required>
-                                        <option value="">Selecione...</option>
-                                        <option value="ate_2k">Até R$ 2.000</option>
-                                        <option value="2k_5k">De R$ 2.000 a R$ 5.000</option>
-                                        <option value="acima_5k">Acima de R$ 5.000</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <label class="form-label">O que NÃO pode faltar nesta Landing Page?</label>
-                                    <textarea class="form-control" name="nao_pode_faltar" rows="2" maxlength="200"></textarea>
-                                    <span class="char-counter">0/200</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label">Observações Adicionais</label>
-                                    <textarea class="form-control" name="observacoes" rows="3" maxlength="500"></textarea>
-                                    <span class="char-counter">0/500</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-5 mb-5">
-                        <a href="https://wa.me/5521995291891?text=Ol%C3%A1%2C%20Caio!%20%F0%9F%91%8B%0AGostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20%20Landing%20Page!%20%F0%9F%91%80" target="_blank" class="btn btn-whatsapp w-100 w-md-auto text-center text-decoration-none">
-                            Falar no WhatsApp
-                        </a>
-                        <button type="submit" class="btn btn-custom-primary w-100 w-md-auto" id="submitBtn" disabled>
-                            Enviar por E-mail
-                        </button>
-                    </div>
-
-                </form>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Falta de leads qualificados">
+                        <span class="checkbox-label">Falta de leads qualificados</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Meu site atual é lento/feio">
+                        <span class="checkbox-label">Meu site atual é lento/feio</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Não tenho autoridade no digital">
+                        <span class="checkbox-label">Não tenho autoridade no digital</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Baixa conversão de vendas">
+                        <span class="checkbox-label">Baixa conversão de vendas</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Outro">
+                        <span class="checkbox-label">Outros desafios</span>
+                    </label>
+                </div>
+                
+                <button type="button" class="btn-next" onclick="revealNextStep(1, 2, this)">Próxima Etapa ➔</button>
             </div>
-        </div>
+
+            <!-- 2. Público e Mercado -->
+            <div class="form-section step-hidden" id="step-2">
+                <h2 class="section-title"><span class="section-number">2</span> Público e Mercado</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Persona</label>
+                    <span class="form-description">Quem é o cliente ideal? (Idade, dores, desejos e o que os impede de comprar).</span>
+                    <textarea id="persona" class="form-textarea" placeholder="Detalhe o perfil do seu cliente comprador..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Diferencial</label>
+                    <span class="form-description">Por que um cliente deve escolher você e não o seu concorrente?</span>
+                    <textarea id="diferencial" class="form-textarea" placeholder="Qual a sua promessa única de valor?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Concorrentes</label>
+                    <span class="form-description">Liste 2 ou 3 empresas que você admira ou que competem diretamente com você.</span>
+                    <input type="text" id="concorrentes" class="form-input" placeholder="Links ou nomes dos concorrentes">
+                </div>
+                
+                <button type="button" class="btn-next" onclick="revealNextStep(2, 3, this)">Próxima Etapa ➔</button>
+            </div>
+
+            <!-- 3. Objetivos e Metas -->
+            <div class="form-section step-hidden" id="step-3">
+                <h2 class="section-title"><span class="section-number">3</span> Objetivos e Metas</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Ação Principal</label>
+                    <span class="form-description">Qual o objetivo número 1 deste projeto?</span>
+                    <select id="acao-principal" class="form-select">
+                        <option value="" disabled selected>Selecione um objetivo</option>
+                        <option value="venda_direta">Vender direto no site</option>
+                        <option value="captacao_leads">Captar contatos no WhatsApp</option>
+                        <option value="captacao_email">Geração de Leads (Email/Formulário)</option>
+                        <option value="awareness">Reconhecimento de Marca / Visualizações</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Expectativa</label>
+                    <span class="form-description">O que seria um resultado de sucesso para você em 3 meses?</span>
+                    <textarea id="expectativa" class="form-textarea" placeholder="Ex: Dobrar a captação de leads, faturar X..."></textarea>
+                </div>
+                
+                <button type="button" class="btn-next" onclick="revealNextStep(3, 4, this)">Próxima Etapa ➔</button>
+            </div>
+
+            <!-- 4. Escopo e Referências -->
+            <div class="form-section step-hidden" id="step-4">
+                <h2 class="section-title"><span class="section-number">4</span> Escopo e Referências</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Referências Visuais</label>
+                    <span class="form-description">Envie links de 3 sites/perfis que você gosta (pela estética ou funcionalidade).</span>
+                    <!-- CORREÇÃO 1: ID inserido na textarea -->
+                    <textarea id="referencias" class="form-textarea" placeholder="Cole os links aqui..."></textarea>
+                </div>
+
+                <div class="form-group" id="grupo-entregaveis">
+                    <label class="form-label">Entregáveis Desejados</label>
+                    <span class="form-description">Marque exatamente o que você espera receber neste projeto.</span>
+                    
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Site Institucional">
+                        <span class="checkbox-label">Site Institucional / Landing Page de Vendas</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Linktree">
+                        <span class="checkbox-label">Linktree Personalizado</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="App">
+                        <span class="checkbox-label">Desenvolvimento de App / Sistema</span>
+                    </label>
+                    
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" id="check-trafego" value="Tráfego Pago">
+                        <span class="checkbox-label" style="color: var(--color-accent); font-weight: 600;">Tráfego Pago & Estratégias Digitais</span>
+                    </label>
+
+                    <div class="conditional-content" id="panel-trafego">
+                        <div class="form-group">
+                            <label class="form-label" style="color: var(--color-accent);">Estratégia Digital & Instagram</label>
+                            <span class="form-description">Você já possui um funil estruturado no Instagram ou precisamos desenhar as estratégias do zero?</span>
+                            <textarea id="estrategia-digital" class="form-textarea" placeholder="Descreva sua atuação atual no Instagram..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="color: var(--color-accent);">Ecossistema de Conversão</label>
+                            <span class="form-description">Para onde vamos mandar o tráfego? (Sites, Páginas de Vendas, WhatsApp ou Linktree?)</span>
+                            <input type="text" id="ecossistema" class="form-input" placeholder="Destino dos anúncios...">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;" id="grupo-ativos">
+                            <label class="form-label" style="color: var(--color-accent);">Ativos Digitais</label>
+                            <span class="form-description">Selecione os ativos que você já possui configurados e prontos para uso:</span>
+                            
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="custom-checkbox" value="Gerenciador de Anúncios Ativo">
+                                <span class="checkbox-label">Gerenciador de Anúncios Ativo</span>
+                            </label>
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="custom-checkbox" value="Pixel / API instalados">
+                                <span class="checkbox-label">Pixel / API de Conversão instalados</span>
+                            </label>
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="custom-checkbox" value="Criativos Prontos">
+                                <span class="checkbox-label">Criativos Prontos (Vídeos/Imagens)</span>
+                            </label>
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="custom-checkbox" value="Começar do zero" id="check-zero">
+                                <span class="checkbox-label" style="opacity: 0.7; font-style: italic;">Não tenho nada, preciso começar do zero</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="grupo-tom-voz">
+                    <label class="form-label">Tom de Voz</label>
+                    <span class="form-description">Como sua marca se comunica com o público? Selecione as opções que melhor definem sua personalidade:</span>
+                    
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Séria e Corporativa">
+                        <span class="checkbox-label">Séria e Corporativa</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Descontraída e Jovem">
+                        <span class="checkbox-label">Descontraída e Jovem</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Agressiva (Focada em Vendas)">
+                        <span class="checkbox-label">Agressiva (Focada em Vendas)</span>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" class="custom-checkbox" value="Acolhedora e Educativa">
+                        <span class="checkbox-label">Acolhedora e Educativa</span>
+                    </label>
+                </div>
+                
+                <button type="button" class="btn-next" onclick="revealNextStep(4, 5, this)">Ir para Orçamento ➔</button>
+            </div>
+
+            <!-- 5. Logística e Orçamento -->
+            <div class="form-section step-hidden" id="step-5">
+                <h2 class="section-title"><span class="section-number">5</span> Logística e Orçamento</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Prazos</label>
+                    <span class="form-description">Existe alguma data limite ou evento de lançamento?</span>
+                    <input type="text" id="prazos" class="form-input" placeholder="Ex: Lançamento previsto para dia 15/10">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Investimento</label>
+                    <span class="form-description">Qual a média de orçamento reservada para este projeto/tráfego?</span>
+                    <select id="investimento" class="form-select">
+                        <option value="" disabled selected>Selecione uma faixa de orçamento</option>
+                        <option value="ate_5k">Até R$ 5.000</option>
+                        <option value="5k_10k">De R$ 5.000 a R$ 10.000</option>
+                        <option value="10k_20k">De R$ 10.000 a R$ 20.000</option>
+                        <option value="acima_20k">Acima de R$ 20.000</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="btn-submit step-hidden" id="btn-submit">Enviar Briefing Estratégico</button>
+        </form>
     </div>
 
+    <!-- SCRIPT DE ALTA PERFORMANCE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('briefingForm');
-            const submitBtn = document.getElementById('submitBtn');
-            const progressBar = document.getElementById('topProgressBar');
-            const progressText = document.getElementById('progressText');
-            const sections = document.querySelectorAll('.form-section');
-            const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
-            const textareas = document.querySelectorAll('textarea[maxlength]');
-            const logoUpload = document.getElementById('logoUpload');
-            const logoPreview = document.getElementById('logo-preview');
-            const storageKey = 'draft_briefing_lp';
+            const checkTrafego = document.getElementById('check-trafego');
+            const panelTrafego = document.getElementById('panel-trafego');
 
-            // 1. Character Counters Setup
-            textareas.forEach(ta => {
-                ta.addEventListener('input', function() {
-                    const counterSpan = this.nextElementSibling;
-                    if(counterSpan && counterSpan.classList.contains('char-counter')) {
-                        counterSpan.textContent = `${this.value.length}/${this.getAttribute('maxlength')}`;
-                    }
-                });
+            // Toggle Panel com will-change para performance
+            checkTrafego.addEventListener('change', function() {
+                if(this.checked) {
+                    panelTrafego.classList.add('active');
+                } else {
+                    panelTrafego.classList.remove('active');
+                    const inputs = panelTrafego.querySelectorAll('input, textarea');
+                    inputs.forEach(input => input.value = '');
+                }
             });
 
-            // 2. Real-time Validation and Progress
-            const validateField = (field) => {
-                if (field.type === 'file' || field.type === 'checkbox' || field.type === 'radio') {
-                    // Custom handling for groups if needed, but HTML5 covers radios required
-                    if(field.required) {
-                        const isValid = field.checkValidity();
-                        if (field.type === 'radio') {
-                            const group = document.querySelectorAll(`input[name="${field.name}"]`);
-                            group.forEach(r => {
-                                r.classList.remove('is-valid', 'is-invalid');
-                                r.classList.add(isValid ? 'is-valid' : 'is-invalid');
-                            });
-                        }
-                    }
-                    return;
-                }
-
-                if (field.value.trim() !== '') {
-                    if (field.checkValidity()) {
-                        field.classList.remove('is-invalid');
-                        field.classList.add('is-valid');
-                    } else {
-                        field.classList.remove('is-valid');
-                        field.classList.add('is-invalid');
-                    }
-                } else {
-                    field.classList.remove('is-valid');
-                    if(field.required) field.classList.add('is-invalid');
-                }
-            };
-
-            const updateProgressAndSubmitState = () => {
-                const requiredFields = Array.from(form.querySelectorAll('[required]'));
+            // Captura o botão final pelo ID
+            const btnSubmit = document.getElementById('btn-submit');
+            
+            // Fica "escutando" o clique do usuário
+            btnSubmit.addEventListener('click', function(e) {
+                e.preventDefault(); 
                 
-                // Deal with radio groups (count unique names)
-                const uniqueRequiredFields = [];
-                const radioNames = new Set();
-                
-                requiredFields.forEach(f => {
-                    if(f.type === 'radio') {
-                        if(!radioNames.has(f.name)) {
-                            radioNames.add(f.name);
-                            uniqueRequiredFields.push(f);
-                        }
-                    } else {
-                        uniqueRequiredFields.push(f);
-                    }
-                });
+                // Feedback visual
+                this.innerHTML = "Gerando PDF...";
+                this.style.opacity = "0.7";
 
-                let validCount = 0;
-                uniqueRequiredFields.forEach(f => {
-                    if (f.type === 'radio') {
-                        const isChecked = document.querySelector(`input[name="${f.name}"]:checked`);
-                        if (isChecked) validCount++;
-                    } else {
-                        if (f.checkValidity() && f.value.trim() !== '') validCount++;
-                    }
-                });
+                // Executa a função do PDF
+                gerarPDF();
 
-                const percentage = Math.round((validCount / uniqueRequiredFields.length) * 100);
-                progressBar.style.width = `${percentage}%`;
-                progressText.textContent = `${percentage}% Preenchido`;
-
-                // Habilita/Desabilita botão enviar
-                submitBtn.disabled = !form.checkValidity();
-            };
-
-            // 3. Form Input Event Listener (Save draft, Validate, Progress)
-            form.addEventListener('input', (e) => {
-                validateField(e.target);
-                updateProgressAndSubmitState();
-                saveDraft();
+                // Volta o botão ao normal após 3 segundos
+                setTimeout(() => {
+                    this.innerHTML = "Enviar Briefing Estratégico";
+                    this.style.opacity = "1";
+                }, 3000);
             });
-            form.addEventListener('change', (e) => {
-                validateField(e.target);
-                updateProgressAndSubmitState();
-                saveDraft();
-            });
-
-            // 4. Logo Preview
-            logoUpload.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        logoPreview.src = e.target.result;
-                        logoPreview.style.display = 'block';
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    logoPreview.style.display = 'none';
-                    logoPreview.src = '';
-                }
-            });
-
-            // 5. Sidebar Active State via Scroll (Intersection Observer)
-            const observerOptions = {
-                root: null,
-                rootMargin: '-20% 0px -60% 0px', // Aciona quando seção atinge a parte superior
-                threshold: 0
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href') === `#${id}`) {
-                                link.classList.add('active');
-                                // Scroll mobile menu into view
-                                if(window.innerWidth < 768) {
-                                    link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                                }
-                            }
-                        });
-                    }
-                });
-            }, observerOptions);
-
-            sections.forEach(sec => observer.observe(sec));
-
-            // 6. LocalStorage: Save & Restore
-            const saveDraft = () => {
-                const formData = new FormData(form);
-                const dataObj = {};
-                for (let [key, value] of formData.entries()) {
-                    if (dataObj[key]) {
-                        if (!Array.isArray(dataObj[key])) {
-                            dataObj[key] = [dataObj[key]];
-                        }
-                        dataObj[key].push(value);
-                    } else {
-                        dataObj[key] = value;
-                    }
-                }
-                localStorage.setItem(storageKey, JSON.stringify(dataObj));
-            };
-
-            const loadDraft = () => {
-                const draft = localStorage.getItem(storageKey);
-                if (draft) {
-                    const dataObj = JSON.parse(draft);
-                    Object.keys(dataObj).forEach(key => {
-                        const inputs = form.querySelectorAll(`[name="${key}"]`);
-                        if(inputs.length === 0) return;
-                        
-                        const val = dataObj[key];
-                        const type = inputs[0].type;
-
-                        if (type === 'radio') {
-                            const radio = form.querySelector(`[name="${key}"][value="${val}"]`);
-                            if (radio) radio.checked = true;
-                        } else if (type === 'checkbox') {
-                            const values = Array.isArray(val) ? val : [val];
-                            inputs.forEach(input => {
-                                if (values.includes(input.value) || (inputs.length === 1 && val === 'on')) {
-                                    input.checked = true;
-                                }
-                            });
-                        } else if (type !== 'file') {
-                            inputs[0].value = val;
-                            // Trigger counter if textarea
-                            if(inputs[0].tagName.toLowerCase() === 'textarea') {
-                                inputs[0].dispatchEvent(new Event('input'));
-                            }
-                        }
-                    });
-                    
-                    // Validate all filled inputs visually
-                    Array.from(form.elements).forEach(el => {
-                         if(el.name && el.type !== 'file' && el.value) {
-                             validateField(el);
-                         }
-                    });
-                    updateProgressAndSubmitState();
-                }
-            };
-
-            // 7. Handle Submit
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (form.checkValidity()) {
-                    const formData = new FormData(form);
-                    const finalData = Object.fromEntries(formData.entries());
-                    
-                    // Tratamento para inputs de múltiplos valores (checkbox)
-                    const multipleChecks = ['objetivo_secundario', 'origem_trafego', 'ferramentas'];
-                    multipleChecks.forEach(key => {
-                        finalData[key] = formData.getAll(key);
-                    });
-
-                    console.log('--- DADOS DO BRIEFING ---');
-                    console.log(finalData);
-                    alert('Formulário validado com sucesso! Os dados foram enviados ao console.log.');
-                    
-                    // Limpar rascunho após envio bem-sucedido
-                    localStorage.removeItem(storageKey);
-                    form.reset();
-                    updateProgressAndSubmitState();
-                    logoPreview.style.display = 'none';
-                    navLinks[0].click(); // Volta pro início
-                } else {
-                    form.reportValidity();
-                }
-            });
-
-            // Initialize
-            loadDraft();
-            updateProgressAndSubmitState();
         });
+
+        // ============================================
+        // LÓGICA DE PROGRESSIVE DISCLOSURE
+        // ============================================
+        function revealNextStep(currentId, nextId, btnElement) {
+            const nextSection = document.getElementById(`step-${nextId}`);
+            
+            nextSection.classList.remove('step-hidden');
+            nextSection.classList.add('step-active');
+            
+            btnElement.style.transition = "opacity 0.3s";
+            btnElement.style.opacity = "0";
+            setTimeout(() => {
+                btnElement.style.display = "none";
+            }, 300);
+
+            const totalSteps = 5; 
+            const displayStep = nextId > totalSteps ? totalSteps : nextId;
+            
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            const percentage = (displayStep / totalSteps) * 100;
+            progressFill.style.width = `${percentage}%`;
+            progressText.innerHTML = `Passo <span class="highlight">${displayStep}</span> de ${totalSteps}`;
+
+            setTimeout(() => {
+                nextSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100); 
+
+            if (displayStep === totalSteps) {
+                const btnSubmit = document.getElementById('btn-submit');
+                setTimeout(() => {
+                    btnSubmit.classList.remove('step-hidden');
+                    btnSubmit.classList.add('step-active');
+                }, 300);
+            }
+        }
+
+        // ============================================
+        // GERAÇÃO DE PDF LIMPO (Apenas Texto)
+        // ============================================
+        function gerarPDF() {
+            var doc = new jsPDF();
+            var y = 20;
+
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("Briefing Estratégico - CF Digital", 20, y);
+            y += 15;
+
+            function escreverLinha(pergunta, resposta) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+
+                doc.setFontSize(12);
+                doc.setFont("helvetica", "bold");
+                doc.text(pergunta, 20, y);
+                y += 6;
+
+                var textoResposta = resposta && resposta.trim() !== "" ? resposta : "Não informado";
+                
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(11);
+                var linhasDeTexto = doc.splitTextToSize(textoResposta, 170);
+                
+                doc.text(linhasDeTexto, 20, y);
+                y += (linhasDeTexto.length * 6) + 8; 
+            }
+
+            // CORREÇÃO 2: Captura isolada (>) aplicada no grupo entregáveis!
+            let arrProblemas = Array.from(document.querySelectorAll('#step-1 .custom-checkbox:checked')).map(cb => cb.value);
+            let arrEntregaveis = Array.from(document.querySelectorAll('#grupo-entregaveis > .checkbox-wrapper .custom-checkbox:checked')).map(cb => cb.value);
+            let arrAtivos = Array.from(document.querySelectorAll('#grupo-ativos .custom-checkbox:checked')).map(cb => cb.value);
+            let arrTomVoz = Array.from(document.querySelectorAll('#grupo-tom-voz .custom-checkbox:checked')).map(cb => cb.value);
+
+            // Escreve os Dados
+            escreverLinha("Dados Básicos (Nome/Empresa):", document.getElementById('dados-basicos').value);
+            escreverLinha("Histórico no Digital:", document.getElementById('historico-tentativas').value);
+            escreverLinha("Desafios Atuais (Problemas):", arrProblemas.join(" | "));
+            
+            escreverLinha("Persona:", document.getElementById('persona').value);
+            escreverLinha("Diferencial:", document.getElementById('diferencial').value);
+            escreverLinha("Concorrentes:", document.getElementById('concorrentes').value);
+            
+            escreverLinha("Objetivo Principal:", document.getElementById('acao-principal').value);
+            escreverLinha("Expectativa de Sucesso:", document.getElementById('expectativa').value);
+
+            escreverLinha("Referências Visuais:", document.getElementById('referencias').value);
+            escreverLinha("Entregáveis Desejados:", arrEntregaveis.join(" | "));
+            escreverLinha("Tom de Voz:", arrTomVoz.join(" | "));
+
+            if (document.getElementById('check-trafego').checked) {
+                // Insere o título do painel diretamente, sem chamar a função escreverLinha
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(12);
+                doc.text("--- PAINEL DE TRÁFEGO PAGO ---", 20, y);
+                y += 8; // Pula a linha
+                
+                escreverLinha("Estratégia Digital (Instagram):", document.getElementById('estrategia-digital').value);
+                escreverLinha("Ecossistema de Conversão:", document.getElementById('ecossistema').value);
+                escreverLinha("Ativos Digitais:", arrAtivos.join(" | "));
+            }
+
+            escreverLinha("Prazos e Lançamentos:", document.getElementById('prazos').value);
+            escreverLinha("Orçamento Previsto:", document.getElementById('investimento').value);
+
+            doc.save('Respostas_Briefing_CFDigital.pdf');
+        }
     </script>
 </body>
 </html>
