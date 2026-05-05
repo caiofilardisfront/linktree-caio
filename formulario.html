@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Briefing Estratégico | CF Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Importação do jsPDF puro (Gerador de texto) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
+        integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
+        crossorigin="anonymous"></script>
 
     <style>
         /* ============================================
@@ -29,9 +32,9 @@
 
             /* Base da fonte e validações visuais */
             --font-main: 'Inter', sans-serif;
-            --color-error: #ef4444; 
+            --color-error: #ef4444;
             --color-success: #22c55e;
-            
+
             /* Premium Transitions */
             --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -158,7 +161,9 @@
             margin-bottom: 0.75rem;
         }
 
-        .form-input, .form-textarea, .form-select {
+        .form-input,
+        .form-textarea,
+        .form-select {
             width: 100%;
             background: rgba(10, 25, 47, 0.5);
             border: 1px solid rgba(136, 146, 176, 0.2);
@@ -176,13 +181,16 @@
             min-height: 100px;
         }
 
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
             border-color: var(--color-accent);
             background: rgba(10, 25, 47, 0.8);
             box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
         }
 
-        .form-input::placeholder, .form-textarea::placeholder {
+        .form-input::placeholder,
+        .form-textarea::placeholder {
             color: var(--color-text-muted);
             opacity: 0.5;
         }
@@ -287,8 +295,15 @@
 
         /* Keyframes */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ============================================
@@ -326,7 +341,7 @@
         .progress-fill {
             height: 100%;
             width: 20%;
-            background: linear-gradient(90deg, rgba(100,255,218,0.2), var(--color-accent));
+            background: linear-gradient(90deg, rgba(100, 255, 218, 0.2), var(--color-accent));
             border-radius: var(--radius-pill);
             box-shadow: 0 0 10px rgba(100, 255, 218, 0.4);
             transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -372,10 +387,14 @@
         }
 
         @keyframes fadeInUpStep {
-            to { opacity: 1; transform: translateY(0); }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="briefing-container">
@@ -398,23 +417,27 @@
             <!-- 1. Identificação e Contexto -->
             <div class="form-section" id="step-1">
                 <h2 class="section-title"><span class="section-number">1</span> Identificação e Contexto</h2>
-                
+
                 <div class="form-group">
                     <label class="form-label">Dados Básicos</label>
                     <span class="form-description">Nome, empresa e nicho de atuação.</span>
-                    <input type="text" id="dados-basicos" class="form-input" placeholder="Ex: João Silva - TechSolutions - Softwares B2B">
+                    <input type="text" id="dados-basicos" class="form-input"
+                        placeholder="Ex: João Silva - TechSolutions - Softwares B2B">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Histórico</label>
-                    <span class="form-description">O que vocês já tentaram no digital que funcionou e o que não funcionou? (Isso evita erros repetidos).</span>
-                    <textarea id="historico-tentativas" class="form-textarea" placeholder="Descreva as tentativas passadas..."></textarea>
+                    <span class="form-description">O que vocês já tentaram no digital que funcionou e o que não
+                        funcionou? (Isso evita erros repetidos).</span>
+                    <textarea id="historico-tentativas" class="form-textarea"
+                        placeholder="Descreva as tentativas passadas..."></textarea>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">O Problema</label>
-                    <span class="form-description">Selecione os principais desafios que sua empresa enfrenta hoje:</span>
-                    
+                    <span class="form-description">Selecione os principais desafios que sua empresa enfrenta
+                        hoje:</span>
+
                     <label class="checkbox-wrapper">
                         <input type="checkbox" class="custom-checkbox" value="Falta de leads qualificados">
                         <span class="checkbox-label">Falta de leads qualificados</span>
@@ -436,39 +459,44 @@
                         <span class="checkbox-label">Outros desafios</span>
                     </label>
                 </div>
-                
+
                 <button type="button" class="btn-next" onclick="revealNextStep(1, 2, this)">Próxima Etapa ➔</button>
             </div>
 
             <!-- 2. Público e Mercado -->
             <div class="form-section step-hidden" id="step-2">
                 <h2 class="section-title"><span class="section-number">2</span> Público e Mercado</h2>
-                
+
                 <div class="form-group">
                     <label class="form-label">Persona</label>
-                    <span class="form-description">Quem é o cliente ideal? (Idade, dores, desejos e o que os impede de comprar).</span>
-                    <textarea id="persona" class="form-textarea" placeholder="Detalhe o perfil do seu cliente comprador..."></textarea>
+                    <span class="form-description">Quem é o cliente ideal? (Idade, dores, desejos e o que os impede de
+                        comprar).</span>
+                    <textarea id="persona" class="form-textarea"
+                        placeholder="Detalhe o perfil do seu cliente comprador..."></textarea>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Diferencial</label>
                     <span class="form-description">Por que um cliente deve escolher você e não o seu concorrente?</span>
-                    <textarea id="diferencial" class="form-textarea" placeholder="Qual a sua promessa única de valor?"></textarea>
+                    <textarea id="diferencial" class="form-textarea"
+                        placeholder="Qual a sua promessa única de valor?"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Concorrentes</label>
-                    <span class="form-description">Liste 2 ou 3 empresas que você admira ou que competem diretamente com você.</span>
-                    <input type="text" id="concorrentes" class="form-input" placeholder="Links ou nomes dos concorrentes">
+                    <span class="form-description">Liste 2 ou 3 empresas que você admira ou que competem diretamente com
+                        você.</span>
+                    <input type="text" id="concorrentes" class="form-input"
+                        placeholder="Links ou nomes dos concorrentes">
                 </div>
-                
+
                 <button type="button" class="btn-next" onclick="revealNextStep(2, 3, this)">Próxima Etapa ➔</button>
             </div>
 
             <!-- 3. Objetivos e Metas -->
             <div class="form-section step-hidden" id="step-3">
                 <h2 class="section-title"><span class="section-number">3</span> Objetivos e Metas</h2>
-                
+
                 <div class="form-group">
                     <label class="form-label">Ação Principal</label>
                     <span class="form-description">Qual o objetivo número 1 deste projeto?</span>
@@ -484,19 +512,21 @@
                 <div class="form-group">
                     <label class="form-label">Expectativa</label>
                     <span class="form-description">O que seria um resultado de sucesso para você em 3 meses?</span>
-                    <textarea id="expectativa" class="form-textarea" placeholder="Ex: Dobrar a captação de leads, faturar X..."></textarea>
+                    <textarea id="expectativa" class="form-textarea"
+                        placeholder="Ex: Dobrar a captação de leads, faturar X..."></textarea>
                 </div>
-                
+
                 <button type="button" class="btn-next" onclick="revealNextStep(3, 4, this)">Próxima Etapa ➔</button>
             </div>
 
             <!-- 4. Escopo e Referências -->
             <div class="form-section step-hidden" id="step-4">
                 <h2 class="section-title"><span class="section-number">4</span> Escopo e Referências</h2>
-                
+
                 <div class="form-group">
                     <label class="form-label">Referências Visuais</label>
-                    <span class="form-description">Envie links de 3 sites/perfis que você gosta (pela estética ou funcionalidade).</span>
+                    <span class="form-description">Envie links de 3 sites/perfis que você gosta (pela estética ou
+                        funcionalidade).</span>
                     <!-- CORREÇÃO 1: ID inserido na textarea -->
                     <textarea id="referencias" class="form-textarea" placeholder="Cole os links aqui..."></textarea>
                 </div>
@@ -504,7 +534,7 @@
                 <div class="form-group" id="grupo-entregaveis">
                     <label class="form-label">Entregáveis Desejados</label>
                     <span class="form-description">Marque exatamente o que você espera receber neste projeto.</span>
-                    
+
                     <label class="checkbox-wrapper">
                         <input type="checkbox" class="custom-checkbox" value="Site Institucional">
                         <span class="checkbox-label">Site Institucional / Landing Page de Vendas</span>
@@ -517,27 +547,35 @@
                         <input type="checkbox" class="custom-checkbox" value="App">
                         <span class="checkbox-label">Desenvolvimento de App / Sistema</span>
                     </label>
-                    
+
                     <label class="checkbox-wrapper">
                         <input type="checkbox" class="custom-checkbox" id="check-trafego" value="Tráfego Pago">
-                        <span class="checkbox-label" style="color: var(--color-accent); font-weight: 600;">Tráfego Pago & Estratégias Digitais</span>
+                        <span class="checkbox-label" style="color: var(--color-accent); font-weight: 600;">Tráfego Pago
+                            & Estratégias Digitais</span>
                     </label>
 
                     <div class="conditional-content" id="panel-trafego">
                         <div class="form-group">
-                            <label class="form-label" style="color: var(--color-accent);">Estratégia Digital & Instagram</label>
-                            <span class="form-description">Você já possui um funil estruturado no Instagram ou precisamos desenhar as estratégias do zero?</span>
-                            <textarea id="estrategia-digital" class="form-textarea" placeholder="Descreva sua atuação atual no Instagram..."></textarea>
+                            <label class="form-label" style="color: var(--color-accent);">Estratégia Digital &
+                                Instagram</label>
+                            <span class="form-description">Você já possui um funil estruturado no Instagram ou
+                                precisamos desenhar as estratégias do zero?</span>
+                            <textarea id="estrategia-digital" class="form-textarea"
+                                placeholder="Descreva sua atuação atual no Instagram..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" style="color: var(--color-accent);">Ecossistema de Conversão</label>
-                            <span class="form-description">Para onde vamos mandar o tráfego? (Sites, Páginas de Vendas, WhatsApp ou Linktree?)</span>
-                            <input type="text" id="ecossistema" class="form-input" placeholder="Destino dos anúncios...">
+                            <label class="form-label" style="color: var(--color-accent);">Ecossistema de
+                                Conversão</label>
+                            <span class="form-description">Para onde vamos mandar o tráfego? (Sites, Páginas de Vendas,
+                                WhatsApp ou Linktree?)</span>
+                            <input type="text" id="ecossistema" class="form-input"
+                                placeholder="Destino dos anúncios...">
                         </div>
                         <div class="form-group" style="margin-bottom: 0;" id="grupo-ativos">
                             <label class="form-label" style="color: var(--color-accent);">Ativos Digitais</label>
-                            <span class="form-description">Selecione os ativos que você já possui configurados e prontos para uso:</span>
-                            
+                            <span class="form-description">Selecione os ativos que você já possui configurados e prontos
+                                para uso:</span>
+
                             <label class="checkbox-wrapper">
                                 <input type="checkbox" class="custom-checkbox" value="Gerenciador de Anúncios Ativo">
                                 <span class="checkbox-label">Gerenciador de Anúncios Ativo</span>
@@ -552,7 +590,8 @@
                             </label>
                             <label class="checkbox-wrapper">
                                 <input type="checkbox" class="custom-checkbox" value="Começar do zero" id="check-zero">
-                                <span class="checkbox-label" style="opacity: 0.7; font-style: italic;">Não tenho nada, preciso começar do zero</span>
+                                <span class="checkbox-label" style="opacity: 0.7; font-style: italic;">Não tenho nada,
+                                    preciso começar do zero</span>
                             </label>
                         </div>
                     </div>
@@ -560,8 +599,9 @@
 
                 <div class="form-group" id="grupo-tom-voz">
                     <label class="form-label">Tom de Voz</label>
-                    <span class="form-description">Como sua marca se comunica com o público? Selecione as opções que melhor definem sua personalidade:</span>
-                    
+                    <span class="form-description">Como sua marca se comunica com o público? Selecione as opções que
+                        melhor definem sua personalidade:</span>
+
                     <label class="checkbox-wrapper">
                         <input type="checkbox" class="custom-checkbox" value="Séria e Corporativa">
                         <span class="checkbox-label">Séria e Corporativa</span>
@@ -579,18 +619,19 @@
                         <span class="checkbox-label">Acolhedora e Educativa</span>
                     </label>
                 </div>
-                
+
                 <button type="button" class="btn-next" onclick="revealNextStep(4, 5, this)">Ir para Orçamento ➔</button>
             </div>
 
             <!-- 5. Logística e Orçamento -->
             <div class="form-section step-hidden" id="step-5">
                 <h2 class="section-title"><span class="section-number">5</span> Logística e Orçamento</h2>
-                
+
                 <div class="form-group">
                     <label class="form-label">Prazos</label>
                     <span class="form-description">Existe alguma data limite ou evento de lançamento?</span>
-                    <input type="text" id="prazos" class="form-input" placeholder="Ex: Lançamento previsto para dia 15/10">
+                    <input type="text" id="prazos" class="form-input"
+                        placeholder="Ex: Lançamento previsto para dia 15/10">
                 </div>
 
                 <div class="form-group">
@@ -617,8 +658,8 @@
             const panelTrafego = document.getElementById('panel-trafego');
 
             // Toggle Panel com will-change para performance
-            checkTrafego.addEventListener('change', function() {
-                if(this.checked) {
+            checkTrafego.addEventListener('change', function () {
+                if (this.checked) {
                     panelTrafego.classList.add('active');
                 } else {
                     panelTrafego.classList.remove('active');
@@ -629,11 +670,11 @@
 
             // Captura o botão final pelo ID
             const btnSubmit = document.getElementById('btn-submit');
-            
+
             // Fica "escutando" o clique do usuário
-            btnSubmit.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                
+            btnSubmit.addEventListener('click', function (e) {
+                e.preventDefault();
+
                 // Feedback visual
                 this.innerHTML = "Gerando PDF...";
                 this.style.opacity = "0.7";
@@ -654,32 +695,32 @@
         // ============================================
         function revealNextStep(currentId, nextId, btnElement) {
             const nextSection = document.getElementById(`step-${nextId}`);
-            
+
             nextSection.classList.remove('step-hidden');
             nextSection.classList.add('step-active');
-            
+
             btnElement.style.transition = "opacity 0.3s";
             btnElement.style.opacity = "0";
             setTimeout(() => {
                 btnElement.style.display = "none";
             }, 300);
 
-            const totalSteps = 5; 
+            const totalSteps = 5;
             const displayStep = nextId > totalSteps ? totalSteps : nextId;
-            
+
             const progressFill = document.getElementById('progress-fill');
             const progressText = document.getElementById('progress-text');
-            
+
             const percentage = (displayStep / totalSteps) * 100;
             progressFill.style.width = `${percentage}%`;
             progressText.innerHTML = `Passo <span class="highlight">${displayStep}</span> de ${totalSteps}`;
 
             setTimeout(() => {
-                nextSection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
+                nextSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
                 });
-            }, 100); 
+            }, 100);
 
             if (displayStep === totalSteps) {
                 const btnSubmit = document.getElementById('btn-submit');
@@ -690,40 +731,69 @@
             }
         }
 
-        // ============================================
-        // GERAÇÃO DE PDF LIMPO (Apenas Texto)
+        /// ============================================
+        // GERAÇÃO DE PDF COM LAYOUT PREMIUM (JSPDF)
         // ============================================
         function gerarPDF() {
             var doc = new jsPDF();
-            var y = 20;
+            var y = 35; // Aumentamos o 'y' inicial para dar espaço ao cabeçalho
 
+            // ----------------------------------------------------
+            // 1. DESENHO DO CABEÇALHO (HEADER)
+            // ----------------------------------------------------
+            // Cor de fundo Azul Escuro (CF Digital)
+            doc.setFillColor(10, 25, 47);
+            // Desenha um retângulo na posição X:0, Y:0, Largura A4: 210mm, Altura: 22mm
+            doc.rect(0, 0, 210, 22, 'F');
+
+            // Cor do texto Verde Neon (CF Digital)
+            doc.setTextColor(100, 255, 218);
             doc.setFontSize(16);
             doc.setFont("helvetica", "bold");
-            doc.text("Briefing Estratégico - CF Digital", 20, y);
-            y += 15;
+            // Escreve o título dentro da faixa azul
+            doc.text("Briefing Estratégico - CF Digital", 20, 14);
 
+            // ----------------------------------------------------
+            // 2. FUNÇÃO DE LAYOUT DAS LINHAS
+            // ----------------------------------------------------
             function escreverLinha(pergunta, resposta) {
+                // Se a página estiver acabando, cria uma nova e desenha o cabeçalho nela também
                 if (y > 270) {
                     doc.addPage();
-                    y = 20;
+                    doc.setFillColor(10, 25, 47);
+                    doc.rect(0, 0, 210, 22, 'F');
+                    doc.setTextColor(100, 255, 218);
+                    doc.text("Briefing Estratégico - CF Digital", 20, 14);
+                    y = 35; // Reseta a altura para baixo do novo cabeçalho
                 }
 
-                doc.setFontSize(12);
+                // Layout da PERGUNTA (Cor: Azul Escuro)
+                doc.setTextColor(17, 34, 64);
+                doc.setFontSize(11);
                 doc.setFont("helvetica", "bold");
                 doc.text(pergunta, 20, y);
-                y += 6;
+                y += 5; // Pulo de linha curto entre pergunta e resposta
 
                 var textoResposta = resposta && resposta.trim() !== "" ? resposta : "Não informado";
-                
+
+                // Layout da RESPOSTA (Cor: Cinza Escuro para leitura)
+                doc.setTextColor(80, 80, 80);
                 doc.setFont("helvetica", "normal");
-                doc.setFontSize(11);
+                doc.setFontSize(10);
                 var linhasDeTexto = doc.splitTextToSize(textoResposta, 170);
-                
+
                 doc.text(linhasDeTexto, 20, y);
-                y += (linhasDeTexto.length * 6) + 8; 
+                y += (linhasDeTexto.length * 5) + 3;
+
+                // Layout da LINHA SEPARADORA (Cor: Cinza Claro)
+                doc.setDrawColor(220, 220, 220); // Define a cor do traço
+                doc.line(20, y, 190, y); // Desenha a linha da margem esquerda(20) à direita(190)
+                y += 7; // Pulo de linha para a próxima pergunta
             }
 
-            // CORREÇÃO 2: Captura isolada (>) aplicada no grupo entregáveis!
+            // ----------------------------------------------------
+            // 3. CAPTURA DOS DADOS (Mantida exatamente como fizemos)
+            // ----------------------------------------------------
             let arrProblemas = Array.from(document.querySelectorAll('#step-1 .custom-checkbox:checked')).map(cb => cb.value);
             let arrEntregaveis = Array.from(document.querySelectorAll('#grupo-entregaveis > .checkbox-wrapper .custom-checkbox:checked')).map(cb => cb.value);
             let arrAtivos = Array.from(document.querySelectorAll('#grupo-ativos .custom-checkbox:checked')).map(cb => cb.value);
@@ -733,11 +803,11 @@
             escreverLinha("Dados Básicos (Nome/Empresa):", document.getElementById('dados-basicos').value);
             escreverLinha("Histórico no Digital:", document.getElementById('historico-tentativas').value);
             escreverLinha("Desafios Atuais (Problemas):", arrProblemas.join(" | "));
-            
+
             escreverLinha("Persona:", document.getElementById('persona').value);
             escreverLinha("Diferencial:", document.getElementById('diferencial').value);
             escreverLinha("Concorrentes:", document.getElementById('concorrentes').value);
-            
+
             escreverLinha("Objetivo Principal:", document.getElementById('acao-principal').value);
             escreverLinha("Expectativa de Sucesso:", document.getElementById('expectativa').value);
 
@@ -745,13 +815,27 @@
             escreverLinha("Entregáveis Desejados:", arrEntregaveis.join(" | "));
             escreverLinha("Tom de Voz:", arrTomVoz.join(" | "));
 
+            // ----------------------------------------------------
+            // 4. BLOCO DE DESTAQUE: TRÁFEGO PAGO
+            // ----------------------------------------------------
             if (document.getElementById('check-trafego').checked) {
-                // Insere o título do painel diretamente, sem chamar a função escreverLinha
+
+                // Quebra de página de segurança caso a faixa caia muito perto do rodapé
+                if (y > 250) { doc.addPage(); y = 30; }
+                else { y += 3; }
+
+                // Desenha a faixa Verde Neon
+                doc.setFillColor(100, 255, 218);
+                doc.rect(20, y, 170, 8, 'F');
+
+                // Escreve o texto Azul por cima da faixa
+                doc.setTextColor(10, 25, 47);
+                doc.setFontSize(11);
                 doc.setFont("helvetica", "bold");
-                doc.setFontSize(12);
-                doc.text("--- PAINEL DE TRÁFEGO PAGO ---", 20, y);
-                y += 8; // Pula a linha
-                
+                doc.text("ESTRATÉGIA DE TRÁFEGO PAGO", 23, y + 5.5);
+
+                y += 13; // Pula o espaço da faixa para iniciar as respostas
+
                 escreverLinha("Estratégia Digital (Instagram):", document.getElementById('estrategia-digital').value);
                 escreverLinha("Ecossistema de Conversão:", document.getElementById('ecossistema').value);
                 escreverLinha("Ativos Digitais:", arrAtivos.join(" | "));
@@ -760,8 +844,12 @@
             escreverLinha("Prazos e Lançamentos:", document.getElementById('prazos').value);
             escreverLinha("Orçamento Previsto:", document.getElementById('investimento').value);
 
-            doc.save('Respostas_Briefing_CFDigital.pdf');
+            // ----------------------------------------------------
+            // 5. DOWNLOAD DO PDF
+            // ----------------------------------------------------
+            doc.save('Briefing_CFDigital.pdf');
         }
     </script>
 </body>
+
 </html>

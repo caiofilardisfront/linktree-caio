@@ -339,7 +339,7 @@
             display: flex;
             gap: var(--gap-marquee);
             width: max-content;
-            animation: scroll 40s linear infinite;
+            animation: scroll 120s linear infinite;
             /* Ajustei para 40s para ficar mais suave */
         }
 
@@ -511,4 +511,33 @@
                 --card-width: 280px;
                 --card-height: 190px;
             }
+        }
+
+        /* ============================================
+           NOVO: BADGE DE NICHO NOS PROJETOS
+        ============================================ */
+        .project-niche {
+            position: absolute;
+            top: 1.2rem; /* Distância do fundo do card */
+            left: 1.2rem;   /* Distância da lateral esquerda */
+            background: rgba(10, 25, 47, 0.85); /* Fundo escuro translúcido */
+            border: 1px solid rgba(100, 255, 218, 0.2); /* Borda sutil neon */
+            color: var(--color-accent); /* Texto na cor verde neon */
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-pill); /* Formato de pílula redonda */
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase; /* Deixa tudo em maiúsculo */
+            letter-spacing: 1px;
+            backdrop-filter: blur(4px); /* Efeito de vidro desfocado */
+            z-index: 5; /* Garante que fique acima da imagem */
+            transition: all 0.3s ease;
+        }
+
+        /* Efeito interativo: a etiqueta brilha quando passamos o mouse no projeto */
+        .project-card:hover .project-niche {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+            transform: translateY(-3px);
+            color: #ffffff; /* O texto fica branco ao passar o mouse para dar contraste */
         }
