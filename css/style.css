@@ -477,39 +477,42 @@
         }
 
         /* Mobile Pequeno (Abaixo de 480px) */
+        /* --- RESPONSIVIDADE (Mobile Pequeno) --- */
         @media (max-width: 480px) {
-            .bio-name {
-                font-size: 2.5rem;
-                /* Ajusta tamanho do nome para não quebrar */
-            }
+            /* ... seus estilos existentes para bio-block, tech-card, etc ... */
 
-            .bio-block {
-            text-align: center;
-        }
-
-            .tech-title {
-                font-size: 1.5rem;
-            }
-
-            .tech-card {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                padding: 1.5rem;
-                /* Reduz padding interno do card tech */
-                margin: 0 auto;
-            }
-
-            .tech-icon-large {
-                font-size: 5rem;
-                /* Reduz ícone de fundo */
-            }
-
-            /* Ajuste para o carrossel no mobile estreito */
+            /* Ajuste crucial para o carrossel no mobile estreito */
             :root {
                 --card-width: 280px;
+                /* Mantém as dimensões definidas */
                 --card-height: 190px;
+            }
+
+            /* --- CORREÇÃO DE INCONSISTÊNCIA --- */
+            .marquee-track {
+                display: flex;
+                justify-content: center;
+                /* Centraliza o carrossel no mobile */
+                gap: 1.5rem;
+                /* Ajusta o espaçamento */
+            }
+
+            .project-card {
+                flex: 0 0 auto;
+                /* Impede que os cartões estiquem/encolham */
+                overflow: hidden;
+                /* Garante que o conteúdo fique dentro do cartão */
+            }
+
+            /* MUDANÇA PRINCIPAL: object-fit contain em vez de cover */
+            .project-image {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                /* Contém a imagem inteira dentro do cartão */
+                border-radius: 10px;
+                background-color: var(--color-bg-card);
+                /* Fundo do cartão preenche as laterais vazias */
             }
         }
 
@@ -518,19 +521,28 @@
         ============================================ */
         .project-niche {
             position: absolute;
-            top: 1.2rem; /* Distância do fundo do card */
-            left: 1.2rem;   /* Distância da lateral esquerda */
-            background: rgba(10, 25, 47, 0.85); /* Fundo escuro translúcido */
-            border: 1px solid rgba(100, 255, 218, 0.2); /* Borda sutil neon */
-            color: var(--color-accent); /* Texto na cor verde neon */
+            top: 1.2rem;
+            /* Distância do fundo do card */
+            left: 1.2rem;
+            /* Distância da lateral esquerda */
+            background: rgba(10, 25, 47, 0.85);
+            /* Fundo escuro translúcido */
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            /* Borda sutil neon */
+            color: var(--color-accent);
+            /* Texto na cor verde neon */
             padding: 0.4rem 1rem;
-            border-radius: var(--radius-pill); /* Formato de pílula redonda */
-            font-size: 0.75rem;
+            border-radius: var(--radius-pill);
+            /* Formato de pílula redonda */
+            font-size: 0.5rem;
             font-weight: 600;
-            text-transform: uppercase; /* Deixa tudo em maiúsculo */
+            text-transform: uppercase;
+            /* Deixa tudo em maiúsculo */
             letter-spacing: 1px;
-            backdrop-filter: blur(4px); /* Efeito de vidro desfocado */
-            z-index: 5; /* Garante que fique acima da imagem */
+            backdrop-filter: blur(4px);
+            /* Efeito de vidro desfocado */
+            z-index: 5;
+            /* Garante que fique acima da imagem */
             transition: all 0.3s ease;
         }
 
@@ -539,5 +551,6 @@
             border-color: var(--color-accent);
             box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
             transform: translateY(-3px);
-            color: #ffffff; /* O texto fica branco ao passar o mouse para dar contraste */
+            color: #ffffff;
+            /* O texto fica branco ao passar o mouse para dar contraste */
         }
